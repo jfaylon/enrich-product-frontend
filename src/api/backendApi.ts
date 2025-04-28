@@ -3,7 +3,7 @@ import { BaseAttributeDefinition } from "@/interfaces";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
-export const fetchProducts = (params: any) =>
+export const fetchProducts = (params: unknown) =>
   axios.get(`${API_URL}/products`, { params });
 
 export const fetchAttributes = () => axios.get(`${API_URL}/attributes`);

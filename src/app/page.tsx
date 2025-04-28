@@ -19,7 +19,7 @@ import {
   Product,
 } from "@/interfaces";
 import axios from "axios";
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const ProductManagerPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -27,7 +27,7 @@ const ProductManagerPage = () => {
   const [attributeModalOpen, setAttributeModalOpen] = useState(false);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [filters, setFilters] = useState<Record<string, any>>({});
+  const [filters, setFilters] = useState<Record<string, string | string[]>>({});
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortField, setSortField] = useState<string>("name");
@@ -102,6 +102,7 @@ const ProductManagerPage = () => {
   const toggleSelection = (id: string) => {
     setSelectedProducts((prev) => {
       const newSet = new Set(prev);
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       newSet.has(id) ? newSet.delete(id) : newSet.add(id);
       return newSet;
     });
@@ -119,6 +120,7 @@ const ProductManagerPage = () => {
         }
       );
       showSuccessToast("CSV uploaded successfully");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       showErrorToast(
         "There is an issue with the CSV. Please update the file and try again."
@@ -179,7 +181,7 @@ const ProductManagerPage = () => {
     setSelectedProducts(new Set());
   };
 
-  const handleFilterChange = (id: string, value: any) => {
+  const handleFilterChange = (id: string, value: string | string[]) => {
     setFilters((prev) => ({ ...prev, [id]: value }));
     setCurrentPage(1);
   };
@@ -209,9 +211,8 @@ const ProductManagerPage = () => {
     if (attributes.length > 0) {
       fetchProductsData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, itemsPerPage, sortField, sortOrder, filters, attributes]);
-
-  console.log(products);
   return (
     <div className="p-6 bg-white dark:bg-gray-900 min-h-screen">
       <div className="flex gap-4 mb-4">
@@ -254,15 +255,21 @@ const ProductManagerPage = () => {
         onClearFilters={handleClearFilters}
       />
 
-      <ProductTable
-        products={products}
-        attributes={attributes}
-        selectedProducts={selectedProducts}
-        toggleSelection={toggleSelection}
-        sortField={sortField}
-        sortOrder={sortOrder}
-        onSort={handleSort}
-      />
+      {loading ? (
+        <div className="flex justify-center items-center py-10">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 dark:border-gray-100"></div>
+        </div>
+      ) : (
+        <ProductTable
+          products={products}
+          attributes={attributes}
+          selectedProducts={selectedProducts}
+          toggleSelection={toggleSelection}
+          sortField={sortField}
+          sortOrder={sortOrder}
+          onSort={handleSort}
+        />
+      )}
 
       <Pagination
         currentPage={currentPage}

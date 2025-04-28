@@ -27,6 +27,7 @@ const config: AWS = {
   custom: {
     "serverless-offline": {
       httpPort: 4000,
+      lambdaPort: 4001,
       stage: "",
       basePath: "",
     },

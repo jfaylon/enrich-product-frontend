@@ -9,11 +9,12 @@ const FilterBar = ({
   onClearFilters,
 }: {
   attributes: AttributeDefinition[];
-  filters: Record<string, any>;
-  onFilterChange: (id: string, value: any) => void;
+  filters: Record<string, string | string[]>;
+  onFilterChange: (id: string, value: string | string[]) => void;
   onClearFilters: () => void;
 }) => {
   const activeFilters = Object.entries(filters).filter(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ([_, value]) => value !== "" && value.length !== 0
   );
 
@@ -26,24 +27,32 @@ const FilterBar = ({
       {attributes.map((attr) => {
         if (attr.type === AttributeType.MultiSelect && attr.options) {
           return (
-            <select
-              key={attr.name}
-              multiple
-              value={filters[attr.name] || []}
-              onChange={(e) =>
-                onFilterChange(
-                  attr.name,
-                  Array.from(e.target.selectedOptions, (option) => option.value)
-                )
-              }
-              className="border p-2 rounded w-48 h-32"
-            >
-              {attr.options.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+            <div key={attr.name}>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                {attr.label}
+              </label>
+              <select
+                key={attr.name}
+                multiple
+                value={filters[attr.name] || []}
+                onChange={(e) =>
+                  onFilterChange(
+                    attr.name,
+                    Array.from(
+                      e.target.selectedOptions,
+                      (option) => option.value
+                    )
+                  )
+                }
+                className="border p-2 rounded w-48 h-32"
+              >
+                {attr.options.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
           );
         }
         if (attr.type === AttributeType.ShortText || AttributeType.Number) {

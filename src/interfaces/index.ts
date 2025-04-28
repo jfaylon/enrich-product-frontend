@@ -5,7 +5,13 @@ export interface Product {
   name: string;
   images?: string[];
   enrichmentStatus?: "not_started" | "pending" | "processing" | "completed";
-  [key: string]: any;
+  attributes?: Record<string, string | number | string[] | Measure>;
+  [key: string]: unknown;
+}
+
+export interface Measure {
+  unit: string;
+  value: number;
 }
 
 export interface AttributeDefinition extends BaseAttributeDefinition {
