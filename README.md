@@ -57,8 +57,6 @@ When the processing is done, it will show the enrichment results in the row
 - **react-hot-toast** (for user notifications)
 - **Serverless Framework** (for deployment simulation)
 
-> Note: This project leverages modern **React 19** and **Next.js 15** features like Server Components, streaming, and App Router routing.
-
 ---
 
 ## Installation
@@ -87,19 +85,19 @@ When the processing is done, it will show the enrichment results in the row
 
 3. **Configure environment variables**
 
-   Copy `.env.example` to `.env.local`:
+   Copy `.env.example` to `.env`:
 
    ```bash
-   cp .env.example .env.local
+   cp .env.example .env
    ```
 
-   Edit `.env.local` to point to your backend:
+   Edit `.env` to point to your backend:
 
    ```env
-   NEXT_PUBLIC_API_URL=http://localhost:3000
+   NEXT_PUBLIC_BACKEND_API_URL=http://localhost:3000
    ```
 
-   ✅ `NEXT_PUBLIC_API_URL` is used internally by Axios to call backend APIs.
+   ✅ `NEXT_PUBLIC_BACKEND_API_URL` is used internally by Axios to call backend APIs.
 
 4. **Run the application**
 
@@ -109,7 +107,7 @@ When the processing is done, it will show the enrichment results in the row
    npm run dev
    ```
 
-   - Frontend available at [http://localhost:3001](http://localhost:3001) (or port 3000 if configured)
+   - Frontend available at [http://localhost:4000](http://localhost:4000) (Port 4000 has been configured in package.json)
 
    #### For serverless offline simulation:
 
