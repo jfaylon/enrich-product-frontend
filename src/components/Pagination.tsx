@@ -1,3 +1,5 @@
+import { UI_STRINGS } from "@/constants";
+
 const Pagination = ({
   currentPage,
   totalPages,
@@ -13,7 +15,9 @@ const Pagination = ({
 }) => (
   <div className="flex flex-wrap gap-4 items-center mt-4 justify-between">
     <div className="flex items-center gap-2">
-      <span className="text-gray-700 dark:text-gray-300">Rows per page:</span>
+      <span className="text-gray-700 dark:text-gray-300">
+        {UI_STRINGS.labels.rowsPerPage}
+      </span>
       <select
         value={itemsPerPage}
         onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
@@ -34,7 +38,7 @@ const Pagination = ({
           currentPage > 1 ? "cursor-pointer" : "cursor-not-allowed"
         }`}
       >
-        Previous
+        {UI_STRINGS.buttons.previous}
       </button>
       <span className="text-gray-700 dark:text-gray-300">
         Page {currentPage} of {totalPages}
@@ -46,7 +50,7 @@ const Pagination = ({
           currentPage < totalPages ? "cursor-pointer" : "cursor-not-allowed"
         }`}
       >
-        Next
+        {UI_STRINGS.buttons.next}
       </button>
     </div>
   </div>

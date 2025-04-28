@@ -10,6 +10,7 @@ import {
   showSuccessToast,
   ToastContainer,
 } from "@/components/ToastContainer";
+import { UI_STRINGS } from "@/constants";
 import { SortOrder } from "@/enums";
 import {
   AttributeDefinition,
@@ -212,13 +213,13 @@ const ProductManagerPage = () => {
           onClick={() => setUploadModalOpen(true)}
           className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer"
         >
-          Upload CSV
+          {UI_STRINGS.buttons.uploadCsv}
         </button>
         <button
           onClick={() => setAttributeModalOpen(true)}
           className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer"
         >
-          Manage Attributes
+          {UI_STRINGS.buttons.manageAttributes}
         </button>
         <button
           onClick={handleEnrichSelected}
@@ -227,7 +228,7 @@ const ProductManagerPage = () => {
           }`}
           disabled={!selectedProducts.size}
         >
-          Enrich Selected
+          {UI_STRINGS.buttons.enrichSelected}
         </button>
         <button
           onClick={handleDeleteSelected}
@@ -236,7 +237,7 @@ const ProductManagerPage = () => {
           }`}
           disabled={!selectedProducts.size}
         >
-          Delete Selected
+          {UI_STRINGS.buttons.deleteSelected}
         </button>
       </div>
 

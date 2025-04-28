@@ -2,6 +2,7 @@ import { Dialog, Transition, TransitionChild } from "@headlessui/react";
 import { useState, Fragment } from "react";
 import { UI_STRINGS } from "@/constants";
 import { AttributeDefinition, BaseAttributeDefinition } from "@/interfaces";
+import { AttributeType, AttributeValue } from "@/enums";
 
 const AttributeModal = ({
   onClose,
@@ -15,7 +16,9 @@ const AttributeModal = ({
   attributes: AttributeDefinition[];
 }) => {
   const [name, setName] = useState("");
-  const [type, setType] = useState<AttributeDefinition["type"]>("short_text");
+  const [type, setType] = useState<AttributeDefinition["type"]>(
+    AttributeType.ShortText
+  );
   const [options, setOptions] = useState<string[]>([]);
   const [optionInput, setOptionInput] = useState("");
   const [unit, setUnit] = useState("");
@@ -36,17 +39,18 @@ const AttributeModal = ({
       type,
     };
     if (
-      (type === "single_select" || type === "multi_select") &&
+      (type === AttributeType.SingleSelect ||
+        type === AttributeType.MultiSelect) &&
       options.length
     ) {
       newAttr.options = options;
     }
-    if (type === "measure" && unit.trim()) {
+    if (type === AttributeType.Measure && unit.trim()) {
       newAttr.unit = unit.trim();
     }
     onAdd(newAttr);
     setName("");
-    setType("short_text");
+    setType(AttributeType.ShortText);
     setOptions([]);
     setOptionInput("");
     setUnit("");
@@ -96,32 +100,47 @@ const AttributeModal = ({
 
               <select
                 value={type}
-                onChange={(e) => setType(e.target.value as any)}
+                onChange={(e) => setType(e.target.value as AttributeType)}
                 className="border border-gray-300 dark:border-gray-700 rounded p-2 w-full bg-white dark:bg-gray-900"
               >
-                <option value="short_text">Short Text</option>
-                <option value="long_text">Long Text</option>
-                <option value="rich_text">Rich Text</option>
-                <option value="number">Number</option>
-                <option value="single_select">Single Select</option>
-                <option value="multi_select">Multi Select</option>
-                <option value="measure">Measure</option>
+                <option value={AttributeType.ShortText}>
+                  {AttributeValue.ShortText}
+                </option>
+                <option value={AttributeType.LongText}>
+                  {AttributeValue.LongText}
+                </option>
+                <option value={AttributeType.RichText}>
+                  {AttributeValue.RichText}
+                </option>
+                <option value={AttributeType.Number}>
+                  {AttributeValue.Number}
+                </option>
+                <option value={AttributeType.SingleSelect}>
+                  {AttributeValue.SingleSelect}
+                </option>
+                <option value={AttributeType.MultiSelect}>
+                  {AttributeValue.MultiSelect}
+                </option>
+                <option value={AttributeType.Measure}>
+                  {AttributeValue.Measure}
+                </option>
               </select>
 
-              {(type === "single_select" || type === "multi_select") && (
+              {(type === AttributeType.SingleSelect ||
+                type === AttributeType.MultiSelect) && (
                 <div className="space-y-2">
                   <div className="flex gap-2">
                     <input
                       value={optionInput}
                       onChange={(e) => setOptionInput(e.target.value)}
-                      placeholder="Add option"
+                      placeholder={UI_STRINGS.placeholders.optionInput}
                       className="border border-gray-300 dark:border-gray-700 rounded p-2 flex-1 bg-white dark:bg-gray-900"
                     />
                     <button
                       onClick={handleAddOption}
                       className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer"
                     >
-                      Add
+                      {UI_STRINGS.buttons.add}
                     </button>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -147,7 +166,7 @@ const AttributeModal = ({
                 </div>
               )}
 
-              {type === "measure" && (
+              {type === AttributeType.Measure && (
                 <input
                   value={unit}
                   onChange={(e) => setUnit(e.target.value)}
@@ -180,7 +199,7 @@ const AttributeModal = ({
                         onClick={() => onDelete(attr._id)}
                         className="text-red-600 hover:text-red-400 cursor-pointer"
                       >
-                        Delete
+                        {UI_STRINGS.buttons.delete}
                       </button>
                     </div>
                   ))}

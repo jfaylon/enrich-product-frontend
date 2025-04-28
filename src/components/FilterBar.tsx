@@ -1,3 +1,5 @@
+import { UI_STRINGS } from "@/constants";
+import { AttributeType } from "@/enums";
 import { AttributeDefinition } from "@/interfaces";
 
 const FilterBar = ({
@@ -22,7 +24,7 @@ const FilterBar = ({
   return (
     <div className="flex flex-wrap gap-4 mb-4">
       {attributes.map((attr) => {
-        if (attr.type === "multi_select" && attr.options) {
+        if (attr.type === AttributeType.MultiSelect && attr.options) {
           return (
             <select
               key={attr.name}
@@ -44,14 +46,14 @@ const FilterBar = ({
             </select>
           );
         }
-        if (attr.type === "short_text" || attr.type === "number") {
+        if (attr.type === AttributeType.ShortText || AttributeType.Number) {
           return (
             <div key={attr.name}>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
                 {attr.label}
               </label>
               <input
-                type={attr.type === "number" ? "number" : "text"}
+                type={attr.type === AttributeType.Number ? "number" : "text"}
                 value={filters[attr.name] ?? ""}
                 onChange={(e) => onFilterChange(attr.name, e.target.value)}
                 className="w-full p-2 border rounded dark:bg-gray-900 dark:text-gray-300"
@@ -59,7 +61,7 @@ const FilterBar = ({
             </div>
           );
         }
-        if (attr.type === "single_select") {
+        if (attr.type === AttributeType.SingleSelect) {
           return (
             <div key={attr.name}>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
@@ -70,7 +72,7 @@ const FilterBar = ({
                 onChange={(e) => onFilterChange(attr.name, e.target.value)}
                 className="w-full p-2 border rounded dark:bg-gray-900 dark:text-gray-300"
               >
-                <option value="">(Select)</option>
+                <option value="">{UI_STRINGS.labels.select}</option>
                 {attr.options?.map((opt) => (
                   <option key={opt} value={opt}>
                     {opt}
@@ -80,7 +82,7 @@ const FilterBar = ({
             </div>
           );
         }
-        if (attr.type === "measure") {
+        if (attr.type === AttributeType.Measure) {
           return (
             <div key={attr.name}>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
@@ -108,7 +110,7 @@ const FilterBar = ({
     }
   `}
       >
-        Clear Filters
+        {UI_STRINGS.buttons.clearFilters}
       </button>
       {activeFilters.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-2">

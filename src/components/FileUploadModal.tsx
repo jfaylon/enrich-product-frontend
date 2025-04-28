@@ -1,3 +1,4 @@
+import { UI_STRINGS } from "@/constants";
 import { Dialog, Transition, TransitionChild } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
@@ -17,6 +18,7 @@ const FileUploadModal = ({
   accept: string;
 }) => {
   const [file, setFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   return (
     <Transition show={open} as={Fragment}>
@@ -51,7 +53,7 @@ const FileUploadModal = ({
                   download
                   className="text-blue-600 dark:text-blue-400 underline text-sm"
                 >
-                  Download Example Template
+                  {UI_STRINGS.links.downloadExampleTemplate}
                 </a>
               )}
 
@@ -76,14 +78,29 @@ const FileUploadModal = ({
                   onClick={onClose}
                   className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white px-4 py-2 rounded cursor-pointer"
                 >
-                  Cancel
+                  {UI_STRINGS.buttons.cancel}
                 </button>
                 <button
-                  disabled={!file}
-                  onClick={() => file && onUpload(file)}
+                  disabled={!file || isUploading}
+                  onClick={async () => {
+                    if (file) {
+                      setIsUploading(true);
+                      try {
+                        await onUpload(file);
+                      } finally {
+                        setIsUploading(false);
+                      }
+                    }
+                  }}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
-                  Upload
+                  {isUploading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    </>
+                  ) : (
+                    <>{UI_STRINGS.buttons.upload}</>
+                  )}
                 </button>
               </div>
             </div>

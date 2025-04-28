@@ -1,3 +1,5 @@
+import { AttributeType } from "@/enums";
+
 export interface Product {
   _id: string;
   name: string;
@@ -13,13 +15,7 @@ export interface AttributeDefinition extends BaseAttributeDefinition {
 export interface BaseAttributeDefinition {
   name: string;
   label: string;
-  type:
-    | "short_text"
-    | "number"
-    | "single_select"
-    | "multi_select"
-    | "measure"
-    | "rich_text";
+  type: AttributeType;
   options?: string[];
   unit?: string;
 }

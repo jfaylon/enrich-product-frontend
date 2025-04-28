@@ -1,4 +1,5 @@
-import { SortOrder } from "@/enums";
+import { UI_STRINGS } from "@/constants";
+import { AttributeField, SortOrder } from "@/enums";
 import { AttributeDefinition, Product } from "@/interfaces";
 
 const ProductTable = ({
@@ -42,7 +43,7 @@ const ProductTable = ({
               colSpan={attributes.length + 1}
               className="text-center py-8 text-gray-500 dark:text-gray-400"
             >
-              No products found.
+              {UI_STRINGS.labels.noProducts}
             </td>
           </tr>
         ) : (
@@ -95,7 +96,7 @@ const ProductTable = ({
                   key={`${product._id}-${attr.name}`}
                   className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 whitespace-normal break-words"
                 >
-                  {attr.name === "name" ? (
+                  {attr.name === AttributeField.Name ? (
                     <div className="flex items-center gap-2 flex-col">
                       {product.name}
                       {product.images && (
