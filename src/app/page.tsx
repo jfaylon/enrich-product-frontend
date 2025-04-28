@@ -1,5 +1,6 @@
 "use client";
 
+import { fetchProducts } from "@/api/backendApi";
 import AttributeModal from "@/components/AttributeModal";
 import FilterBar from "@/components/FilterBar";
 import Pagination from "@/components/Pagination";
@@ -40,21 +41,16 @@ const ProductManagerPage = () => {
 
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const fetchProducts = async () => {
+  const fetchProductsData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_API}/products`,
-        {
-          params: {
-            page: currentPage,
-            limit: itemsPerPage,
-            sortField,
-            sortOrder,
-            ...filters,
-          },
-        }
-      );
+      const response = await fetchProducts({
+        page: currentPage,
+        limit: itemsPerPage,
+        sortField,
+        sortOrder,
+        ...filters,
+      });
       setProducts(response.data.data);
       setTotalPages(Math.ceil(response.data.totalCount / itemsPerPage));
 
@@ -80,7 +76,7 @@ const ProductManagerPage = () => {
   const startPolling = () => {
     if (!pollingIntervalRef.current) {
       pollingIntervalRef.current = setInterval(() => {
-        fetchProducts();
+        fetchProductsData();
       }, 10000);
     }
   };
@@ -95,7 +91,7 @@ const ProductManagerPage = () => {
   const fetchAttributes = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_API}/attributes`
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/attributes`
       );
       setAttributes(response.data.attributes);
     } catch (error) {
@@ -115,29 +111,36 @@ const ProductManagerPage = () => {
     try {
       const fd = new FormData();
       fd.append("file", file);
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API}/products`, fd, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/products`,
+        fd,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       showSuccessToast("CSV uploaded successfully");
     } catch (error) {
       showErrorToast(
         "There is an issue with the CSV. Please update the file and try again."
       );
     } finally {
-      fetchProducts();
+      fetchProductsData();
       setUploadModalOpen(false);
     }
   };
 
   const handleAddAttribute = async (attr: BaseAttributeDefinition) => {
-    await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API}/attributes`, attr);
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/attributes`,
+      attr
+    );
     showSuccessToast("Attribute Added");
     await fetchAttributes();
   };
 
   const handleDeleteAttribute = async (id: string) => {
     await axios.delete(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/attributes/${id}`
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/attributes/${id}`
     );
     showSuccessToast("Attribute Deleted");
     await fetchAttributes();
@@ -149,10 +152,13 @@ const ProductManagerPage = () => {
       return;
     }
 
-    await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API}/products/enrich`, {
-      productIds: selectedProductIds,
-    });
-    await fetchProducts();
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/products/enrich`,
+      {
+        productIds: selectedProductIds,
+      }
+    );
+    await fetchProductsData();
     showSuccessToast("Products are sent for enrichment. Please wait.");
     setSelectedProducts(new Set());
   };
@@ -163,12 +169,12 @@ const ProductManagerPage = () => {
       return;
     }
 
-    await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API}/products/`, {
+    await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/products/`, {
       data: {
         productIds: selectedProductIds,
       },
     });
-    await fetchProducts();
+    await fetchProductsData();
     showSuccessToast("Products are successfully deleted");
     setSelectedProducts(new Set());
   };
@@ -201,7 +207,7 @@ const ProductManagerPage = () => {
 
   useEffect(() => {
     if (attributes.length > 0) {
-      fetchProducts();
+      fetchProductsData();
     }
   }, [currentPage, itemsPerPage, sortField, sortOrder, filters, attributes]);
 
