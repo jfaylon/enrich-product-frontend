@@ -120,7 +120,7 @@ const FilterBar = ({
               {key}: {Array.isArray(value) ? value.join(", ") : value}
               <button
                 onClick={() => handleRemoveFilter(key)}
-                className="ml-2 text-blue-500 hover:text-blue-700"
+                className="ml-2 text-blue-500 hover:text-blue-700 cursor-pointer"
               >
                 ×
               </button>

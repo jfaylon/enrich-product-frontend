@@ -81,7 +81,7 @@ const AttributeModal = ({
                 <h2 className="text-lg font-bold">Manage Attributes</h2>
                 <button
                   onClick={onClose}
-                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white text-xl"
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white text-xl cursor-pointer"
                 >
                   ✕
                 </button>
@@ -119,7 +119,7 @@ const AttributeModal = ({
                     />
                     <button
                       onClick={handleAddOption}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer"
                     >
                       Add
                     </button>
@@ -137,7 +137,7 @@ const AttributeModal = ({
                               prev.filter((_, i) => i !== idx)
                             )
                           }
-                          className="text-red-600 hover:text-red-400"
+                          className="text-red-600 hover:text-red-400 cursor-pointer"
                         >
                           ×
                         </button>
@@ -158,7 +158,7 @@ const AttributeModal = ({
 
               <button
                 onClick={handleAddAttribute}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full"
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full cursor-pointer"
               >
                 {UI_STRINGS.buttons.addAttribute}
               </button>
@@ -178,7 +178,7 @@ const AttributeModal = ({
                       </span>
                       <button
                         onClick={() => onDelete(attr._id)}
-                        className="text-red-600 hover:text-red-400"
+                        className="text-red-600 hover:text-red-400 cursor-pointer"
                       >
                         Delete
                       </button>

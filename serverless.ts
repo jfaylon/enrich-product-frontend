@@ -1,6 +1,5 @@
 // serverless.ts
 import type { AWS } from "@serverless/typescript";
-import path from "path";
 
 const config: AWS = {
   service: "nextjs-app",
