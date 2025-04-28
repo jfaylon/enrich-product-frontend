@@ -55,7 +55,10 @@ const FilterBar = ({
             </div>
           );
         }
-        if (attr.type === AttributeType.ShortText || AttributeType.Number) {
+        if (
+          attr.type === AttributeType.ShortText ||
+          attr.type === AttributeType.Number
+        ) {
           return (
             <div key={attr.name}>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
