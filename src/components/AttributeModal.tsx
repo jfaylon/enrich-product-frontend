@@ -151,7 +151,7 @@ const AttributeModal = ({
                 <input
                   value={unit}
                   onChange={(e) => setUnit(e.target.value)}
-                  placeholder="Unit (e.g., kg)"
+                  placeholder={UI_STRINGS.placeholders.unitInput}
                   className="border border-gray-300 dark:border-gray-700 rounded p-2 w-full bg-white dark:bg-gray-900"
                 />
               )}
@@ -160,7 +160,7 @@ const AttributeModal = ({
                 onClick={handleAddAttribute}
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full"
               >
-                Add Attribute
+                {UI_STRINGS.buttons.addAttribute}
               </button>
 
               <div className="pt-4 border-t border-gray-300 dark:border-gray-700 space-y-2">
