@@ -57,8 +57,6 @@ When the processing is done, it will show the enrichment results in the row
 - **react-hot-toast** (for user notifications)
 - **Serverless Framework** (for deployment simulation)
 
-> Note: This project leverages modern **React 19** and **Next.js 15** features like Server Components, streaming, and App Router routing.
-
 ---
 
 ## Installation
