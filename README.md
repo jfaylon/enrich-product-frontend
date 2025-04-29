@@ -191,6 +191,10 @@ When the processing is done, it will show the enrichment results in the row
 - **Improved Dynamic Filtering and Sorting**:  
   Enhance product table with multi-attribute filtering, search across multiple fields, and advanced client-side sorting optimizations.
 
+- **Dynamic Column Visibility Control**:  
+  Allow users to hide or show specific columns in the product table without affecting the underlying data.  
+  This would improve usability for different workflows, enabling users to focus only on the attributes relevant to their current task, while preserving full dataset integrity.
+
 - **Analytics and Monitoring Integration**:  
   Embed tools like Vercel Analytics, LogRocket, or Sentry (already discussed for backend) to track frontend performance and capture client-side errors.
 
